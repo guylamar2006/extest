@@ -31,7 +31,6 @@ static DEVICE: Lazy<Mutex<VirtualDevice>> = Lazy::new(|| {
             DisplaySize { width: 0, height: 0 }
         }
     };
-
     Mutex::new(
         VirtualDeviceBuilder::new()
             .unwrap()
