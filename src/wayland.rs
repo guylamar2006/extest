@@ -7,18 +7,17 @@ use wayland_protocols::xdg::xdg_output::zv1::client::{
     zxdg_output_manager_v1::ZxdgOutputManagerV1, zxdg_output_v1,
 };
 
-
 #[derive(Copy, Clone, Default)]
 pub struct DisplaySize {
     pub width: i32,
-    pub height: i32
+    pub height: i32,
 }
 
 #[derive(Default)]
 struct OutputData {
     wl_outputs: Vec<wl_output::WlOutput>,
     output_man: Option<ZxdgOutputManagerV1>,
-    max_size: DisplaySize
+    max_size: DisplaySize,
 }
 
 /// Returns the largest dimensions of the detected monitors
@@ -32,12 +31,15 @@ pub fn get_axes_range() -> DisplaySize {
     let mut data = OutputData::default();
     queue.roundtrip(&mut data).unwrap();
 
-    for output in data.wl_outputs.iter() {
-        data.output_man
-            .as_ref()
-            .unwrap()
-            .get_xdg_output(output, &handle, ());
+    // Initialize the output manager before using it
+    if let Some(output_man) = data.output_man.as_ref() {
+        for output in data.wl_outputs.iter() {
+            output_man.get_xdg_output(output, &handle, ());
+        }
+    } else {
+        panic!("Output manager is not initialized");
     }
+    
     queue.roundtrip(&mut data).unwrap();
     data.max_size
 }
@@ -70,12 +72,7 @@ impl Dispatch<wl_registry::WlRegistry, ()> for OutputData {
         _: &Connection,
         handle: &QueueHandle<OutputData>,
     ) {
-        if let wl_registry::Event::Global {
-            name,
-            interface,
-            version,
-        } = event
-        {
+        if let wl_registry::Event::Global { name, interface, version } = event {
             if interface == wl_output::WlOutput::interface().name {
                 let output: wl_output::WlOutput = registry.bind(name, version, handle, ());
                 state.wl_outputs.push(output);
