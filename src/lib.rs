@@ -154,8 +154,8 @@ pub extern "C" fn XTestFakeRelativeMotionEvent(
 ) -> c_int {
     let mut dev = DEVICE.lock().unwrap();
     let events = [
-        InputEvent::new_now(EventType::RELATIVE as u16, RelativeAxisType::REL_X.0, x),
-        InputEvent::new_now(EventType::RELATIVE as u16, RelativeAxisType::REL_Y.0, y),
+        InputEvent::new_now(EventType::RELATIVE, RelativeAxisType::REL_X.0, x),
+        InputEvent::new_now(EventType::RELATIVE, RelativeAxisType::REL_Y.0, y),
     ];
     dev.emit(&events).unwrap();
     1
