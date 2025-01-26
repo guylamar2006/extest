@@ -2,7 +2,7 @@ use evdev::KeyCode;
 
 // Every key that Big Picture allows binding.
 
-pub const KEYS: &[Key] = &[
+pub const KEYS: &[KeyCode] = &[
     KeyCode::KEY_ESC,
     KeyCode::KEY_F1,
     KeyCode::KEY_F2,
