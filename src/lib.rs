@@ -23,7 +23,7 @@ pub struct Display {
 static DEVICE: Lazy<Mutex<VirtualDevice>> = Lazy::new(|| {
     let size = get_axes_range();
     Mutex::new(
-        VirtualDeviceBuilder::new()
+        VirtualDevice::builder()
             .unwrap()
             .name("extest fake device")
             .with_keys(&AttributeSet::from_iter(
