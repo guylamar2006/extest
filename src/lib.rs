@@ -6,7 +6,7 @@ use wayland::get_axes_range;
 
 use evdev::{
     uinput::{VirtualDevice, VirtualDeviceBuilder},
-    AbsInfo, AbsoluteAxisType, AttributeSet, EventType, InputEvent, Key, RelativeAxisType,
+    AbsInfo, AbsoluteAxisCode as AbsoluteAxisType, AttributeSet, EventType, InputEvent, Key, RelativeAxisType,
     UinputAbsSetup,
 };
 use once_cell::sync::Lazy;
