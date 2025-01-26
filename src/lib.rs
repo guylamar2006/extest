@@ -171,8 +171,8 @@ pub extern "C" fn XTestFakeMotionEvent(
 ) -> c_int {
     let mut dev = DEVICE.lock().unwrap();
     let events = [
-        InputEvent::new_now(EventType::ABSOLUTE, AbsoluteAxisType::ABS_X.0, x),
-        InputEvent::new_now(EventType::ABSOLUTE, AbsoluteAxisType::ABS_Y.0, y),
+        InputEvent::new_now(EventType::ABSOLUTE.0 as u16, AbsoluteAxisType::ABS_X.0, x),
+        InputEvent::new_now(EventType::ABSOLUTE.0 as u16, AbsoluteAxisType::ABS_Y.0, y),
     ];
     dev.emit(&events).unwrap();
     1
