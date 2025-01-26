@@ -140,7 +140,7 @@ pub extern "C" fn XTestFakeButtonEvent(
         }
     };
 
-    dev.emit(&[InputEvent::new_now(EventType::KEY, key.0, is_press as i32)])
+    dev.emit(&[InputEvent::new_now(EventType::KEY.0 as u16, key.0, is_press as i32)])
         .unwrap();
     1
 }
