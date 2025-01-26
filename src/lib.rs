@@ -126,7 +126,7 @@ pub extern "C" fn XTestFakeButtonEvent(
                     _ => unreachable!(),
                 };
                 dev.emit(&[InputEvent::new_now(
-                    EventType::RELATIVE,
+                    EventType::RELATIVE.0,
                     RelativeAxisType::REL_WHEEL.0,
                     value,
                 )])
