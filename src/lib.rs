@@ -27,7 +27,7 @@ static DEVICE: Lazy<Mutex<VirtualDevice>> = Lazy::new(|| {
             .unwrap()
             .name("extest fake device")
             .with_keys(&AttributeSet::from_iter(
-                [Key::BTN_LEFT, Key::BTN_RIGHT, Key::BTN_MIDDLE]
+                [KeyCode::BTN_LEFT, KeyCode::BTN_RIGHT, KeyCode::BTN_MIDDLE]
                     .into_iter()
                     .chain(KEYS.iter().copied()),
             ))
@@ -66,8 +66,8 @@ pub extern "C" fn XTestFakeKeyEvent(
 
     // Seems that X11 keycodes are just 8 + linux keycode - https://wiki.archlinux.org/title/Keyboard_input#Identifying_keycodes
     let key = match keycode {
-        156 => Key::KEY_TAB, // I have no idea where this comes from
-        keycode => Key::new((keycode - 8) as u16),
+        156 => KeyCode::KEY_TAB, // I have no idea where this comes from
+        keycode => KeyCode::new((keycode - 8) as u16),
     };
 
     #[cfg(debug_assertions)]
@@ -112,9 +112,9 @@ pub extern "C" fn XTestFakeButtonEvent(
     let mut dev = DEVICE.lock().unwrap();
     // values determined via xev
     let key = match button.try_into() {
-        Ok(MouseButtons::LeftClick) => Key::BTN_LEFT,
-        Ok(MouseButtons::MiddleClick) => Key::BTN_MIDDLE,
-        Ok(MouseButtons::RightClick) => Key::BTN_RIGHT,
+        Ok(MouseButtons::LeftClick) => KeyCode::BTN_LEFT,
+        Ok(MouseButtons::MiddleClick) => KeyCode::BTN_MIDDLE,
+        Ok(MouseButtons::RightClick) => KeyCode::BTN_RIGHT,
         Ok(MouseButtons::ScrollUp | MouseButtons::ScrollDown) => {
             // These are sent with is_press true and is_press false like the other buttons,
             // but we only care about is_press because an "unpressed" scroll event doesn't make
